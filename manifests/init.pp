@@ -27,13 +27,13 @@ class splunk {
     file { "/etc/init.d/splunkforwarder":
       owner => root, group => root, mode => 755,
       source => [
-        "puppet:///modules/splunk/etc/forwarder-init-script.$fqdn",
-        "puppet:///modules/splunk/etc/forwarder-init-script",
+        "puppet:///splunk/etc/forwarder-init-script.$fqdn",
+        "puppet:///splunk/etc/forwarder-init-script",
       ],
     }
     
     exec { "add-forwarder": 
-      command => "splunk add forward-server logs.cloud.mo-stud.io:9997",
+      command => "/opt/splunkforwarder/bin/splunk add forward-server logs.cloud.mo-stud.io:9997",
       notify => Service['splunkforwarder'],
       require => Package['splunkforwarder']
     }
@@ -76,8 +76,8 @@ class splunk {
     file { "/opt/splunk/etc/splunk.license":
       owner => splunk, group => splunk, mode => 600,
       source => [
-        "puppet:///modules/splunk/etc/splunk.license.$fqdn",
-        "puppet:///modules/splunk/etc/splunk.license",
+        "puppet:///splunk/etc/splunk.license.$fqdn",
+        "puppet:///splunk/etc/splunk.license",
       ],
       require => Package['splunk'],
     }
@@ -87,16 +87,16 @@ class splunk {
     file { "/etc/init.d/splunk":
       owner => root, group => root, mode => 755,
       source => [
-        "puppet:///modules/splunk/etc/init-script.$fqdn",
-        "puppet:///modules/splunk/etc/init-script",
+        "puppet:///splunk/etc/init-script.$fqdn",
+        "puppet:///splunk/etc/init-script",
       ],
     }
     # Users local to the Splunk install (e.g., admin)
     file { "/opt/splunk/etc/passwd":
       owner => splunk, group => splunk, mode => 600,
       source => [
-        "puppet:///modules/splunk/etc/passwd.$fqdn",
-        "puppet:///modules/splunk/etc/passwd",
+        "puppet:///splunk/etc/passwd.$fqdn",
+        "puppet:///splunk/etc/passwd",
       ],
       require => Package['splunk'],
     }
