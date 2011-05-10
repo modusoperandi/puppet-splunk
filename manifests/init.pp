@@ -27,8 +27,7 @@ class splunk {
     file { "/etc/init.d/splunkforwarder":
       owner => root, group => root, mode => 755,
       source => [
-        "puppet:///splunk/etc/forwarder-init-script.$fqdn",
-        "puppet:///splunk/etc/forwarder-init-script",
+        "puppet:///splunk/etc/forwarder-init-script"
       ],
     }
     
