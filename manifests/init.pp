@@ -32,7 +32,7 @@ class splunk {
     }
     
     exec { "add-forwarder": 
-      command => "/opt/splunkforwarder/bin/splunk add forward-server logs.cloud.mo-stud.io:9997",
+      command => "/opt/splunkforwarder/bin/splunk --accept-license --no-prompt --answer-yes add forward-server logs.cloud.mo-stud.io:9997",
       notify => Service['splunkforwarder'],
       require => Package['splunkforwarder']
     }
