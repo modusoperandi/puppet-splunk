@@ -9,7 +9,7 @@ class splunk {
       ensure => installed
     }
     
-    service { splunk:
+    service { splunkforwarder:
       ensure     => running,
       enable     => true,
       hasrestart => true,
