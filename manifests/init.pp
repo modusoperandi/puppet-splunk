@@ -113,27 +113,6 @@ class splunk {
       require => Package['splunk'],
     }
     
-    Service['splunk'] {
-      require    => [ File[ 
-                            "/etc/init.d/splunk",
-                            "/opt/splunk/etc/system/local/inputs.conf", 
-                            "/opt/splunk/etc/splunk.license", 
-                            "/opt/splunk/etc/certs/cacert.pem", 
-                            "/opt/splunk/etc/certs/splunk.pem"
-                          ], 
-                      Package["splunk"], 
-                    ],
-      subscribe  => [ File[ 
-                            "/opt/splunk/etc/splunk.license", 
-                            "/opt/splunk/etc/certs/cacert.pem",
-                            "/opt/splunk/etc/certs/splunk.pem",
-                            "/opt/splunk/etc/system/local/inputs.conf"
-                          ],
-                      Package["splunk"],
-                    ],
-      
-    }
-    
     file { "/opt/splunk/etc/system/local/inputs.conf":
       owner => splunk, group => splunk, mode => 600,
       content => template("splunk/local/inputs.conf-server.erb"),
