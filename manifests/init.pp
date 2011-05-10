@@ -9,6 +9,12 @@ class splunk {
       ensure => installed
     }
     
+    exec { "add-forwarder": 
+      command => "/opt/splunkforwarder/bin/splunk --accept-license --no-prompt --answer-yes add forward-server logs.cloud.mo-stud.io:9997",
+      notify => Service['splunkforwarder'],
+      require => [ Package['splunkforwarder'], Service['splunkforwarder'] ]
+    }
+    
     service { splunkforwarder:
       ensure     => running,
       enable     => true,
@@ -20,7 +26,7 @@ class splunk {
                       ],
                       Package["splunkforwarder"],
                     ],
-      subscribe  => [ Package["splunkforwarder"], Exec['add-forwarder'] ]
+      subscribe  => [ Package["splunkforwarder"] ]
     }
     
     # Init script (Based on `/opt/splunk/bin/splunk enable boot-start`)
@@ -29,12 +35,6 @@ class splunk {
       source => [
         "puppet:///splunk/etc/forwarder-init-script"
       ],
-    }
-    
-    exec { "add-forwarder": 
-      command => "/opt/splunkforwarder/bin/splunk --accept-license --no-prompt --answer-yes add forward-server logs.cloud.mo-stud.io:9997",
-      notify => Service['splunkforwarder'],
-      require => [ Package['splunkforwarder'], Service['splunkforwarder'] ]
     }
     
     
