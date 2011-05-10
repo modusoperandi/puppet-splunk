@@ -20,7 +20,8 @@ class splunk {
                       ],
                       Package["splunkforwarder"],
                     ],
-      subscribe  => [ Package["splunkforwarder"] ]
+      subscribe  => [ Package["splunkforwarder"] ],
+      notify     => [ Exec['add-forwarder'] ]
     }
     
     # Init script (Based on `/opt/splunk/bin/splunk enable boot-start`)
@@ -32,8 +33,8 @@ class splunk {
     }
     
     exec { "add-forwarder": 
-      command => "/opt/splunkforwarder/bin/splunk --accept-license --no-prompt --answer-yes add forward-server logs.cloud.mo-stud.io:9997",
-      require => [ Package['splunkforwarder'], Service['splunkforwarder'] ]
+      command => "/opt/splunkforwarder/bin/splunk --accept-license --no-prompt --answer-yes add forward-server logs.cloud.mo-stud.io:9997"
+#      require => [ Package['splunkforwarder'], Service['splunkforwarder'] ]
     }
     
   } # end splunk::lwf
